@@ -5,30 +5,30 @@ body
     table.table.table-responsive.table-hover.table-striped.table-dark
       thead
         tr
-          th(scope="col") ID
-          th(scope="col") Event Name
-          th(scope="col") Event DateTime
-          th(scope="col") Venue
-          th(scope="col") Contact Phone
-          th(scope="col") Seat
+          th(scope="col") Review ID
+          th(scope="col") Product Name
+          th(scope="col") Review DateTime
+          th(scope="col") Place of purchasing
+          th(scope="col") Reviewer number
+          th(scope="col") Review
           th(scope="col") Actions
       tbody
         script.
           document.addEventListener('DOMContentLoaded', function() {
             axios.get('/api/review')
               .then(function(response) {
-                const events = response.data;
+                const reviews = response.data;
                 const tableBody = document.querySelector('table tbody');
-                events.forEach(t => {
+                reviews.forEach(t => {
                   const row = document.createElement('tr');
-                  const event = t.event
+                  const review = t.review
                   row.innerHTML = `
                     <td>${t.id}</td>
-                    <td>${event.eventName}</td>
-                    <td>${event.eventDateTime}</td>
-                    <td>${event.venue}</td>
-                    <td>${event.contactPhone}</td>
-                    <td>${event.seat}</td>
+                    <td>${review.productName}</td>
+                    <td>${review.reviewDateTime}</td>
+                    <td>${review.placeOfPurchasing}</td>
+                    <td>${review.reviewerNumber}</td>
+                    <td>${review.review}</td>
                     <td>
                       <button class="btn btn-primary btn-sm">Edit</button>
                       <button class="btn btn-danger btn-sm">Delete</button>
