@@ -1,35 +1,74 @@
 include ../head.pug
 body
   .container.mt-5
-    h1 Add/Update Review
-    form(action="/submit-event-form" method="POST")
-      .mb-3
-        label(for="productName" class="form-label") Product Name
-        input(type="text" class="form-control" id="productName" name="productName" required)
-      .mb-3
-        label(for="reviewDateTime" class="form-label") Review Date/Time
-        .input-group.date(id="datetimepicker1" data-target-input="nearest")
-          input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="reviewDateTime" required)
-          .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
-            .input-group-text
-              i.fas.fa-calendar-alt
-      .mb-3
-        label(for="placeOfPurchasing" class="form-label") Place of purchasing
-        input(type="text" class="form-control" id="placeOfPurchasing" name="placeOfPurchasing" required)
-      .mb-3
-        label(for="reviewerNumber" class="form-label") Reviewer Number
-        input(type="tel" class="form-control" id="reviewerNumber" name="reviewerNumber" required)
-      .mb-3
-        label(for="review" class="form-label") Review
-        input(type="text" class="form-control" id="review" name="review" required)
-      button(type="submit" class="btn btn-primary") Add/Edit
+    h1 #{mode}
+    .mb-3
+      label(for="productName" class="form-label") Product Name
+      input(type="text" class="form-control" id="productName" name="productName" required)
+    .mb-3
+      label(for="reviewDateTime" class="form-label") Review Date/Time
+      .input-group.date(id="datetimepicker1" data-target-input="nearest")
+        input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="reviewDateTime" name="reviewDateTime" required)
+        .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
+          .input-group-text
+            i.fas.fa-calendar-alt
+    .mb-3
+      label(for="placeOfPurchasing" class="form-label") Place of purchasing
+      input(type="text" class="form-control" id="placeOfPurchasing" name="placeOfPurchasing" required)
+    .mb-3
+      label(for="reviewerNumber" class="form-label") Reviewer Number
+      input(type="tel" class="form-control" id="reviewerNumber" name="reviewerNumber" required)
+    .mb-3
+      label(for="review" class="form-label") Review
+      input(type="text" class="form-control" id="review" name="review" required)
+    button(type="submit" class="btn btn-success" onclick="submitForm()") #{mode === 'Update' ? 'Update' : 'Add'}
+    span &nbsp;
+    button(type="submit" class="btn btn-primary" onclick="window.location.href='/';") Back to list
 
   script.
+    const format = 'DD/MM/YYYY HH:mm';
     const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
         localization: {
             'locale': 'fr'
         }
     });
     picker.dates.formatInput = function(date) {
-        return moment(date).format('DD/MM/YYYY HH:mm')
+        return moment(date).format(format);
+    };
+
+    if ("#{mode}" === "Update") {
+      const reviewData = !{JSON.stringify(reviewData || {})}.review;
+      document.getElementById('productName').value = reviewData.productName || '';
+
+      picker.dates.setValue(
+        new tempusDominus.DateTime(moment(reviewData.reviewDateTime, format))
+      );
+
+      document.getElementById('placeOfPurchasing').value = reviewData.placeOfPurchasing || '';
+      document.getElementById('reviewerNumber').value = reviewData.reviewerNumber || '';
+      document.getElementById('review').value = reviewData.review || '';
+    }
+
+    function submitForm() {
+      const reviewData = {
+        productName: document.getElementById('productName').value,
+        reviewDateTime: document.getElementById('reviewDateTime').value,
+        placeOfPurchasing: document.getElementById('placeOfPurchasing').value,
+        reviewerNumber: document.getElementById('reviewerNumber').value,
+        review: document.getElementById('review').value,
+      };
+
+      const url = "#{mode}" === "Update" ? `/api/review/${!{JSON.stringify(reviewData || {})}.id}` : '/api/review';
+      const method = "#{mode}" === "Update" ? 'put' : 'post';
+
+      axios[method](url, reviewData).then(response => {
+        alert('Success!');
+        location.href = '/';
+      })
+      .catch(error => {
+        if(error.response)
+          alert(JSON.stringify(error.response.data.errors));
+        else
+          alert(error);
+      });
     }
