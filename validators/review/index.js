@@ -1,4 +1,5 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
+const review_service = require('../../services/review')
 
 const addReviewValidation = () => {
   return [
@@ -20,6 +21,17 @@ const addReviewValidation = () => {
   ];
 };
 
+const deleteReviewValidation = () => {
+  return [
+    param('id').custom(async (id) => {
+      const exists = await review_service.getById(id);
+      if (!exists) {
+        throw new Error('Review not found');
+      }
+    })
+  ];
+};
 module.exports = {
-    addReviewValidation
+    addReviewValidation,
+    deleteReviewValidation
 };
