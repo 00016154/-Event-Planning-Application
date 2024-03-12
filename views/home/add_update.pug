@@ -1,27 +1,27 @@
 include ../head.pug
 body
   .container.mt-5
-    h1 Add/Update Event
+    h1 Add/Update Review
     form(action="/submit-event-form" method="POST")
       .mb-3
-        label(for="eventName" class="form-label") Event Name
-        input(type="text" class="form-control" id="eventName" name="eventName" required)
+        label(for="productName" class="form-label") Product Name
+        input(type="text" class="form-control" id="productName" name="productName" required)
       .mb-3
-        label(for="eventDateTime" class="form-label") Event Date/Time
+        label(for="reviewDateTime" class="form-label") Review Date/Time
         .input-group.date(id="datetimepicker1" data-target-input="nearest")
-          input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="eventDateTime" required)
+          input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="reviewDateTime" required)
           .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
             .input-group-text
               i.fas.fa-calendar-alt
       .mb-3
-        label(for="venue" class="form-label") Venue
-        input(type="text" class="form-control" id="venue" name="venue" required)
+        label(for="placeOfPurchasing" class="form-label") Place of purchasing
+        input(type="text" class="form-control" id="placeOfPurchasing" name="placeOfPurchasing" required)
       .mb-3
-        label(for="contactPhone" class="form-label") Contact Phone
-        input(type="tel" class="form-control" id="contactPhone" name="contactPhone" required)
+        label(for="reviewerNumber" class="form-label") Reviewer Number
+        input(type="tel" class="form-control" id="reviewerNumber" name="reviewerNumber" required)
       .mb-3
-        label(for="seat" class="form-label") Seat
-        input(type="text" class="form-control" id="seat" name="seat" required)
+        label(for="review" class="form-label") Review
+        input(type="text" class="form-control" id="review" name="review" required)
       button(type="submit" class="btn btn-primary") Add/Edit
 
   script.
