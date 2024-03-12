@@ -10,23 +10,28 @@ const review_service = {
     },
     getById(id) {
         return reviews.find(t => t.id == id);
-    },    
+    },
     create(req, res) {
         let new_id = genRandId(4);
-                
         const review = req.body;
-
         const new_review = {
             id: new_id,
             review: review
         };
-
         reviews.push(new_review);
-        
         writeToFile(reviews);
-        
         return new_review;
     },
+    update(id, updateData){ 
+        const reviewIndex = reviews.findIndex(t => t.id == id) 
+        if (reviewIndex === -1) { 
+            return null 
+        } 
+        reviews[reviewIndex].review = { ...reviews[reviewIndex].review, ...updateData } 
+        
+        writeToFile(reviews) 
+        return reviews[reviewIndex] 
+    }, 
     delete(id) {
         const index = reviews.findIndex(u => u.id == id);
         reviews.splice(index, 1);    
@@ -36,13 +41,14 @@ const review_service = {
 
 // create function for overwriting the db file updated db content
 let writeToFile = async (users) => {
-    await fs.writeFileSync(
-        global.reviews_db,
-        JSON.stringify(
-            users, null, 4
-        ),
-        'utf8'
-    );
+    await
+        fs.writeFileSync(
+            global.reviews_db,
+            JSON.stringify(
+                users, null, 4
+            ),
+            'utf8'
+        );
 };
 
 // generate random id inspired by uuid

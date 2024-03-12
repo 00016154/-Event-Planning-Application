@@ -11,6 +11,14 @@ const review_controller = {
             review_service.create(req, res)
         )
     },
+    update(req, res) { 
+        const review = review_service.update(req.params.id, req.body) 
+        if (review) { 
+            res.json(review) 
+        } else { 
+            res.status(404).send('Review not found') 
+        } 
+    }, 
     delete(req, res) {
         const review = review_service.getById(req.params.id)
         if (review) {

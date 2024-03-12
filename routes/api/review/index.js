@@ -1,6 +1,7 @@
 const express = require('express');
 const { validationResult } = require('express-validator');
-const { addReviewValidation, deleteReviewValidation } = require('../../../validators/review');
+const { addReviewValidation, updateReviewValidation,
+   deleteReviewValidation } = require('../../../validators/review');
 
 const router = express.Router();
 const review_controller = require('../../../controllers/api/review');
@@ -18,6 +19,14 @@ router.post('/', addReviewValidation(), (req, res)=>{
 
     review_controller.create(req, res)
 })
+
+router.put('/:id', updateReviewValidation(), (req, res)=>{
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() }); 
+  }
+  review_controller.update(req, res) 
+  })
 
 router.delete('/:id', deleteReviewValidation(), (req, res, next)=>{
   const errors = validationResult(req);
