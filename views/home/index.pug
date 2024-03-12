@@ -15,7 +15,7 @@ body
       tbody
         script.
           document.addEventListener('DOMContentLoaded', function() {
-            axios.get('/api/event')
+            axios.get('/api/review')
               .then(function(response) {
                 const events = response.data;
                 const tableBody = document.querySelector('table tbody');
