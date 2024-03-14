@@ -5,6 +5,7 @@ The review setting application is a service,where someone can write a review abo
 In order to use the app, you should download it from the public github repository.Then, once you downloaded it and opened the project in VS code,open a terminal and print the following commands:
 
 npm i express express-validator pug body-parser nodemon
+
 npm start
 
 After you see on your terminal the following "Server running on port 3000", you can open a browser and type http://localhost:3000/ or just simply copy that line.
