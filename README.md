@@ -19,6 +19,8 @@ After you see on your terminal the following "Server running on port 3000", you 
     pug: "3.0.2"
 
 ⦁	Link to the public repo with web application source code on github and link to the hosted application:
+
 Github: https://github.com/00016154/-Review-Setting-Application.git
+
 Aws: Public IPv4 address: 13.51.47.172:3000
 
