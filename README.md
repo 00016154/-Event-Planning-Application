@@ -11,6 +11,7 @@ npm start
 After you see on your terminal the following "Server running on port 3000", you can open a browser and type http://localhost:3000/ or just simply copy that line.
 
 ⦁	Application dependencies list:
+
     body-parser: "1.20.2",
     express: "4.18.3",
     express-validator: "7.0.1",
